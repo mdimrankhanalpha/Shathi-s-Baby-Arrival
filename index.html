@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shathi - নতুন জীবনের আগমন 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght=0,400;0,600;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght=0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ─── DESIGN TOKENS ────────────────────────────────────────────── */
+:root {
+  --pk-0: #fff5f8;  --pk-1: #ffe0ec;  --pk-2: #ffb3cc;
+  --pk-3: #ff85a6;  --pk-4: #e75480;
+  --bl-0: #f0f7ff;  --bl-1: #d0e8ff;  --bl-2: #a8cfff;
+  --cr-0: #fffaf4;  --cr-1: #fff0dc;
+  --gd-0: #f7e8b8;  --gd-1: #e8b86d;  --gd-2: #c9933a;  --gd-3: #9a6e20;
+  --tx-0: #2d1b3d;  --tx-1: #5e3d6b;  --tx-2: #9b7ba8;
+  --wh: #ffffff;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Hind Siliguri', sans-serif;
+  background: var(--cr-0);
+  color: var(--tx-0);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── VISIBLE & DYNAMIC BACKGROUND ANIMATION ───────────────────── */
+#bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(circle 450px at 15% 20%, rgba(255,133,166,0.6) 0%, transparent 75%),
+    radial-gradient(circle 400px at 85% 15%, rgba(168,207,255,0.65) 0%, transparent 75%),
+    radial-gradient(circle 500px at 50% 85%, rgba(255,224,236,0.75) 0%, transparent 75%),
+    radial-gradient(circle 350px at 80% 75%, rgba(247,232,184,0.5) 0%, transparent 75%),
+    linear-gradient(135deg, #fffcfb 0%, #fff3f8 40%, #f6eeff 70%, #f2f8ff 100%);
+  background-size: 140% 140%;
+  animation: bgDrift 8s ease-in-out infinite alternate;
+}
+@keyframes bgDrift {
+  0%   { background-position: 0% 0%; filter: hue-rotate(0deg) brightness(1.0); }
+  50%  { background-position: 50% 100%; filter: hue-rotate(12deg) brightness(1.02); }
+  100% { background-position: 100% 50%; filter: hue-rotate(25deg) brightness(1.04); }
+}
+
+/* ─── PETALS FALLING ANIMATION ────────────────────────────────── */
+#petals { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.petal {
+  position: absolute; top: -40px; opacity: 0;
+  border-radius: 50% 0 50% 0;
+  animation: petalDrop linear infinite;
+}
+.petal:nth-child(even) { border-radius: 0 50% 0 50%; }
+@keyframes petalDrop {
+  0%   { transform: translateY(0) rotate(0deg) translateX(0px); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(105vh) rotate(540deg) translateX(50px); opacity: 0; }
+}
+
+/* ─── WRAPPER ─────────────────────────────────────────────────── */
+#app {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto; padding: 0 18px;
+}
+
+/* ─── HEADER ──────────────────────────────────────────────────── */
+header {
+  text-align: center; padding: 64px 20px 36px;
+  animation: fadeDown .9s ease both;
+}
+.h-ornament {
+  display: block; font-size: 1.7rem; letter-spacing: 22px;
+  opacity: .55; margin-bottom: 14px;
+}
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5.5vw, 3.8rem);
+  font-weight: 700; line-height: 1.18;
+  background: linear-gradient(120deg, var(--gd-3), var(--gd-2), var(--pk-4), var(--gd-2));
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+  margin-bottom: 14px;
+}
+.h-sub { font-size: clamp(.95rem, 2.5vw, 1.25rem); color: var(--tx-1); opacity: .85; }
+.h-rule {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; max-width: 380px; margin: 24px auto 0;
+}
+.h-rule::before,.h-rule::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gd-2), transparent);
+}
+.h-rule span { color: var(--gd-2); font-size: 1.1rem; }
+
+/* ─── TAB NAV ─────────────────────────────────────────────────── */
+.tabs {
+  display: flex; justify-content: center; gap: 10px;
+  padding: 0 16px 44px; flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: 1rem; font-weight: 600;
+  padding: 14px 34px; border: 2px solid transparent;
+  border-radius: 50px; cursor: pointer;
+  background: rgba(255,255,255,0.45); color: var(--tx-1);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+  box-shadow: 0 4px 14px rgba(0,0,0,.03);
+}
+.tab-btn:hover:not(.active) {
+  border-color: var(--gd-1);
+  transform: translateY(-3px);
+}
+.tab-btn.active {
+  background: linear-gradient(120deg, var(--pk-3), #ffad5a, var(--pk-3));
+  background-size: 200% auto;
+  color: var(--wh); border-color: rgba(255,255,255,.3);
+  box-shadow: 0 8px 24px rgba(231,84,128,0.25);
+  animation: shimmer 3.5s linear infinite;
+}
+
+/* ─── TAB PANELS ──────────────────────────────────────────────── */
+.panel { display: none; }
+.panel.active { display: block; animation: fadeUp .55s ease; }
+
+@keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: .7; } }
+
+/* ─── LIGHT REFINED GLASS CARD ────────────────────────────────── */
+.card {
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-radius: 28px; padding: 36px; margin-bottom: 32px;
+  box-shadow: 0 8px 32px rgba(231, 84, 128, 0.03), inset 0 1px 0 rgba(255,255,255,0.7);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(231, 84, 128, 0.06);
+}
+
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.85rem); color: var(--tx-0);
+  text-align: center; margin-bottom: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.sec-sub { text-align: center; color: var(--tx-2); font-size: .92rem; margin-bottom: 30px; }
+
+/* ─── PERSONAL MESSAGE ────────────────────────────────────────── */
+.msg-card { text-align: center; padding: 52px 44px; position: relative; overflow: hidden; }
+.msg-card::before {
+  content: '\201C'; position: absolute; top: -15px; left: 18px;
+  font-family: 'Playfair Display', serif; font-size: 10rem; color: rgba(231,84,128,0.05);
+}
+.msg-card::after {
+  content: '\201D'; position: absolute; bottom: -75px; right: 18px;
+  font-family: 'Playfair Display', serif; font-size: 10rem; color: rgba(231,84,128,0.05);
+}
+.msg-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(120deg, var(--gd-2), var(--pk-3));
+  color: var(--wh); padding: 9px 26px; border-radius: 50px;
+  font-size: .88rem; font-weight: 600; margin-bottom: 30px;
+}
+.msg-text { font-size: clamp(1.05rem, 2.5vw, 1.38rem); font-weight: 500; line-height: 1.95; max-width: 680px; margin: 0 auto 26px; }
+.msg-sig { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gd-2); font-size: 1.1rem; }
+.msg-deco { margin: 20px 0 0; font-size: 1.5rem; letter-spacing: 10px; opacity: .4; }
+
+/* ─── TIMER 1 ─────────────────────────────────────────────────── */
+.timer-status {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; padding: 13px 28px; border-radius: 50px;
+  font-weight: 600; font-size: .98rem; margin: 0 auto 28px; width: fit-content;
+}
+.status-cntdwn { background: rgba(201,147,58,0.08); color: var(--gd-3); border: 1px solid rgba(201,147,58,0.25); }
+.status-elapsed { background: rgba(255,133,166,0.1); color: var(--pk-4); border: 1px solid rgba(255,133,166,0.25); }
+.lock-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gd-2); }
+.pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--pk-4); animation: pulse 1.1s ease-in-out infinite; }
+
+.timer-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.t-unit {
+  text-align: center; background: rgba(255,255,255,0.65); border-radius: 20px; padding: 26px 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.02); border: 1px solid rgba(255,255,255,0.5);
+  transition: transform .25s ease;
+}
+.t-unit:hover { transform: scale(1.05); }
+.t-num {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 7vw, 4.8rem);
+  font-weight: 600; line-height: 1; background: linear-gradient(135deg, var(--gd-3), var(--pk-4));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.t-lbl { font-size: .8rem; color: var(--tx-2); font-weight: 600; margin-top: 7px; display: block; }
+
+/* ─── TIMER 2 ─────────────────────────────────────────────────── */
+.preg-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; margin-top: 28px; align-items: center; }
+.neo-box {
+  background: rgba(255,255,255,0.6); border-radius: 20px; padding: 22px;
+  border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 14px rgba(0,0,0,0.01);
+}
+.pct-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 600; }
+.pct-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--gd-2); }
+.bar-track { background: rgba(231,84,128,0.08); border-radius: 100px; height: 17px; position: relative; }
+.bar-fill {
+  height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--pk-2), var(--gd-1), var(--pk-3));
+  background-size: 200% auto; animation: shimmer 3s linear infinite; box-shadow: 0 2px 10px rgba(231,84,128,0.25);
+  transition: width 0.5s ease; position: relative;
+}
+.bar-fill::after { content: '🌸'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 19px; }
+.milestones { display: flex; justify-content: space-between; gap: 3px; margin-top: 4px; }
+.m-dot { flex: 1; height: 6px; border-radius: 100px; background: rgba(0,0,0,0.05); }
+.m-dot.done { background: var(--gd-1); }
+
+.months-row { display: grid; grid-template-columns: repeat(9,1fr); gap: 6px; margin-top: 22px; }
+.m-bubble {
+  aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,0.5); border: 1.5px solid rgba(0,0,0,0.05);
+  display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif;
+  font-size: .82rem; font-weight: 600; color: var(--tx-2); position: relative;
+}
+.m-bubble.done { background: linear-gradient(135deg, var(--pk-2), var(--gd-1)); color: var(--wh); border-color: transparent; }
+.m-bubble.now { background: linear-gradient(135deg, var(--gd-2), var(--pk-3)); color: var(--wh); border-color: transparent; }
+.m-bubble .tip {
+  position: absolute; bottom: 115%; left: 50%; transform: translateX(-50%); background: var(--tx-0); color: var(--wh);
+  padding: 4px 8px; border-radius: 6px; font-size: .68rem; white-space: nowrap; opacity: 0; pointer-events: none;
+}
+.m-bubble:hover .tip { opacity: 1; }
+
+/* REFINED SINGLE DAY CARD */
+.single-day-card {
+  background: rgba(255,255,255,0.6); border-radius: 24px; padding: 40px 20px; text-align: center;
+  border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 6px 20px rgba(0,0,0,0.01);
+  transition: transform .3s ease;
+}
+.single-day-card:hover { transform: translateY(-3px); }
+.day-big-num {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(3.8rem, 10vw, 5.5rem);
+  font-weight: 700; color: var(--pk-4); line-height: 1; margin-bottom: 6px;
+}
+.day-label { font-size: 1.15rem; color: var(--tx-1); font-weight: 700; margin-bottom: 4px; display: block; }
+.day-subtext { font-size: .88rem; color: var(--tx-2); display: block; }
+
+.due-badge {
+  margin-top: 20px; padding: 14px 20px; background: rgba(255,255,255,0.4);
+  border-radius: 16px; border: 1px solid rgba(255,133,166,0.15); text-align: center; font-size: .95rem;
+}
+.due-badge strong { background: linear-gradient(135deg, var(--gd-3), var(--pk-4)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* ─── PAGE 2 ──────────────────────────────────────────────────── */
+.guide-hero { text-align: center; padding: 28px 20px 36px; }
+.guide-hero h2 {
+  font-family: 'Playfair Display', serif; font-size: clamp(1.55rem, 4vw, 2.5rem);
+  background: linear-gradient(120deg, var(--gd-3), var(--pk-4), var(--gd-2));
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite; margin-bottom: 12px;
+}
+.guide-hero p { color: var(--tx-1); font-size: 1.05rem; }
+.guide-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-bottom: 44px; }
+.g-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 50px; font-weight: 700; font-size: 1.05rem; margin-bottom: 22px; }
+.do-badge   { background: #56c596; color: var(--wh); }
+.dont-badge { background: #ff6b6b; color: var(--wh); }
+.g-item {
+  display: flex; align-items: flex-start; gap: 15px; padding: 18px; border-radius: 18px; margin-bottom: 12px;
+  background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+}
+.g-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.45rem; flex-shrink: 0; }
+.do-icon   { background: rgba(86,197,150,0.12); }
+.dont-icon { background: rgba(255,107,107,0.12); }
+.g-title { font-weight: 700; font-size: .98rem; margin-bottom: 4px; }
+.do-col .g-title { color: #1a7a47; }
+.dont-col .g-title { color: #b52b2b; }
+.g-desc { font-size: .88rem; color: var(--tx-1); line-height: 1.68; }
+
+footer { text-align: center; padding: 36px 20px 70px; color: var(--tx-2); font-size: .9rem; }
+footer .heart { display: inline-block; color: var(--pk-4); animation: pulse 1.4s ease-in-out infinite; }
+
+@media (max-width: 800px) { .guide-cols, .preg-layout { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .timer-grid { grid-template-columns: repeat(2,1fr); } .card { padding: 24px 18px; } .months-row { gap: 4px; } .m-bubble { font-size: .7rem; } }
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+<div id="petals"></div>
+
+<div id="app">
+
+  <header>
+    <span class="h-ornament">🌸 ✦ 🌼 ✦ 🌸</span>
+    <h1>আমাদের অনাগত সন্তানের অপেক্ষায় - Shathi</h1>
+    <p class="h-sub">একটি নতুন ভোর, একটি নতুন আশার আলো 🌅</p>
+    <div class="h-rule"><span>✦</span></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="goTab('p1',this)">🌟 উৎসব ও টাইমার</button>
+    <button class="tab-btn" onclick="goTab('p2',this)">📋 গর্ভাবস্থায় যত্ন নির্দেশিকা</button>
+  </nav>
+
+  <!-- PAGE 1 -->
+  <div id="p1" class="panel active">
+    <div class="card msg-card">
+      <div class="msg-badge"><i class="fas fa-heart"></i> আমার আনন্দ</div>
+      <p class="msg-text">আমি মোঃ ইমরান খান, মামা হওয়ার জন্য অনেক আগ্রহে অপেক্ষা করছি এবং অনেক খুশি। আমি অপেক্ষায় রয়েছি তাদেরকে দেখার জন্য।</p>
+      <div class="msg-sig">— মোঃ ইমরান খান</div>
+      <div class="msg-deco">🌸 🤱 🌸</div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title"><span>⏱️</span> বিশেষ মুহূর্তের গণনা</div>
+      <p class="sec-sub">৬ই জুন ২০২৬ · মধ্যরাত ১২:০০ টা · বাংলাদেশ সময় (UTC+৬)</p>
+      <div class="timer-status status-cntdwn" id="t1status">
+        <div class="lock-dot"></div>
+        <span id="t1txt">সময়টা ধরে রাখা হয়েছে (এখনো শুরু হয়নি)</span>
+      </div>
+      <div class="timer-grid">
+        <div class="t-unit"><span class="t-num" id="d">00</span><span class="t-lbl">দিন</span></div>
+        <div class="t-unit"><span class="t-num" id="h">00</span><span class="t-lbl">ঘণ্টা</span></div>
+        <div class="t-unit"><span class="t-num" id="m">00</span><span class="t-lbl">মিনিট</span></div>
+        <div class="t-unit"><span class="t-num" id="s">00</span><span class="t-lbl">সেকেন্ড</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title"><span>🤱</span> গর্ভকালীন অগ্রগতি ট্র্যাকার</div>
+      <p class="sec-sub">Shathi-র সোনালী যাত্রা — ৯ মাসের পথ</p>
+      <div class="preg-layout">
+        <div>
+          <div class="neo-box">
+            <div class="pct-row"><span>গর্ভকালীন অগ্রগতি</span><span class="pct-num" id="pctNum">0%</span></div>
+            <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+            <div class="milestones" id="mstones"></div>
+          </div>
+          <div class="months-row" id="mBubbles"></div>
+          <div class="due-badge">🗓️ আনুমানিক প্রসব তারিখ: <strong id="dueDateTxt">৭ই মার্চ, ২০২৭</strong></div>
+        </div>
+        <div class="single-day-card">
+          <span class="day-big-num" id="pgD">২৭০</span>
+          <span class="day-label" id="dayBoxLabel">দিন বাকি</span>
+          <span class="day-subtext" id="dayBoxSub">মোট লক্ষ্য: ২৭০ দিন</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div id="p2" class="panel">
+    <div class="guide-hero">
+      <h2>🌿 গর্ভাবস্থায় যত্ন নির্দেশিকা</h2>
+      <p>Shathi-র সুস্থ ও সুখী গর্ভকালীন যাত্রার জন্য<br>একটি ভালোবাসার সংকলন</p>
+    </div>
+    <div class="guide-cols">
+      <div class="do-col">
+        <div class="card" style="padding:32px 26px">
+          <div class="g-badge do-badge"><i class="fas fa-check-circle"></i> করনীয় কাজসমূহ</div>
+          <div class="g-item"><div class="g-icon do-icon">🥗</div><div><div class="g-title">পুষ্টিকর খাবার</div><div class="g-desc">প্রতিদিন সুষম খাদ্য, fruit, শাকসবজি এবং প্রচুর পানি পান করা। আয়রন, ক্যালসিয়াম ও ফোলিক অ্যাসিড সমৃদ্ধ খাবার মা ও শিশু উভয়ের জন্য অত্যন্ত জরুরি।</div></div></div>
+          <div class="g-item"><div class="g-icon do-icon">😴</div><div><div class="g-title">সঠিক বিশ্রাম ও ঘুম</div><div class="g-desc">রাতে অন্তত ৮ ঘণ্টা এবং দিনে ২ ঘণ্টা বিশ্রাম নেওয়া। পর্যাপ্ত ঘুম হরমোনের ভারসাম্য বজায় রেখে শিশুর সুষম বিকাশ নিশ্চিত করে।</div></div></div>
+          <div class="g-item"><div class="g-icon do-icon">🏥</div><div><div class="g-title">নিয়মিত ডাক্তারি পরীক্ষা</div><div class="g-desc">চিকিৎসকের পরামর্শ অনুযায়ী আল্ট্রাসনোগ্রাফি ও চেকআপ করানো। নিয়মিত পরীক্ষা যেকোনো জটিলতা আগেভাগে শনাক্ত করতে অপরিহার্য।</div></div></div>
+          <div class="g-item"><div class="g-icon do-icon">😊</div><div><div class="g-title">মানসিক প্রশান্তি</div><div class="g-desc">সবসময় হাসিখুশি থাকা, ভালো বই পড়া, ধর্মীয় অনুশাসন মেনে চলা এবং পজিティブ চিন্তা করা। মায়ের সুখী মন শিশুর মস্তিষ্কের বিকাশে সহায়তা করে।</div></div></div>
+          <div class="g-item"><div class="g-icon do-icon">🚶‍♀️</div><div><div class="g-title">হালকা ব্যায়াম</div><div class="g-desc">চিকিৎসকের পরামর্শ নিয়ে প্রতিদিন সামান্য হাঁটাচলা করা। হালকা ব্যায়াম রক্তসঞ্চালন উন্নত করে এবং স্বাভাবিক প্রসবের সম্ভাবনা বাড়ায়।</div></div></div>
+        </div>
+      </div>
+      <div class="dont-col">
+        <div class="card" style="padding:32px 26px">
+          <div class="g-badge dont-badge"><i class="fas fa-times-circle"></i> বিরত থাকার কাজ</div>
+          <div class="g-item"><div class="g-icon dont-icon">🏋️</div><div><div class="g-title">ভারী ওজন তোলা</div><div class="g-desc">কোনো ধরনের ভারী জিনিস বা বালতি তোলা থেকে সম্পূর্ণ বিরত থাকা। ভারী বোঝা বহন গর্ভপাত বা অকাল প্রসবের কারণ হতে পারে।</div></div></div>
+          <div class="g-item"><div class="g-icon dont-icon">😤</div><div><div class="g-title">মানসিক চাপ ও রাগ</div><div class="g-desc">অতিরিক্ত দুশ্চিন্তা, মানসিক চাপ বা রাগ করা যাবে না। মানসিক অস্থিরতা শিশুর স্বাভাবিক বিকাশে বিরূপ প্রভাব ফেলে এবং কর্টিসল হরমোন বৃদ্ধি করে।</div></div></div>
+          <div class="g-item"><div class="g-icon dont-icon">💊</div><div><div class="g-title">পরামর্শ ছাড়া ওষুধ</div><div class="g-desc">যেকোনো ছোটখাটো অসুখেও ডাক্তারের অনুমতি ছাড়া কোনো ওষুধ খাওয়া যাবে না। অনেক সাধারণ ওষুধও গর্ভের শিশুর মারাত্মক ক্ষতি করতে পারে।</div></div></div>
+          <div class="g-item"><div class="g-icon dont-icon">🍔</div><div><div class="g-title">জাঙ্ক ফুড ও ক্যাফেইন</div><div class="g-desc">অতিরিক্ত তৈলাক্ত খাবার, ফাস্টফুড এবং চা/কফি অতিরিক্ত গ্রহণ থেকে বিরত থাকা। এগুলো উচ্চ রক্তচাপ ও গর্ভকালীন ডায়াবেটিসের ঝুঁকি বাড়ায়।</div></div></div>
+          <div class="g-item"><div class="g-icon dont-icon">⚠️</div><div><div class="g-title">সিঁড়িতে তাড়াহুড়ো</div><div class="g-desc">তাড়াহুড়ো করে সিঁড়ি দিয়ে ওঠানামা না করা। পড়ে যাওয়ার ঝুঁকি এড়াতে সবসময় রেলিং ধরে ধীরে ও সাবধানে চলাচল করতে হবে।</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>তৈরি করা হয়েছে <span class="heart">❤</span> দিয়ে &mdash; Shathi-র জন্য</p>
+    <p style="margin-top:9px;opacity:.6">আল্লাহ মা ও শিশু উভয়কে সুস্থ, সুন্দর ও নিরাপদ রাখুন 🌸</p>
+  </footer>
+</div>
+
+<script>
+/* ── PETALS FALLING ─────────────────────────────────────────── */
+(function spawnPetals() {
+  const C = document.getElementById('petals');
+  const clr = ['#FFB3CC','#FF85A6','#FFD6E7','#A8CFFF','#D0E8FF','#F5D08A','#E8B86D'];
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const sz = Math.random()*12 + 8;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;` +
+      `background:${clr[Math.floor(Math.random()*clr.length)]};` +
+      `animation-duration:${Math.random()*12 + 8}s;animation-delay:${Math.random()*10}s;`;
+    C.appendChild(p);
+  }
+})();
+
+function goTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const p2 = n => String(n).padStart(2,'0');
+
+/* ── TIMERS & FIXED 270 DAYS LOGIC ─────────────────────────── */
+const PG_START = new Date('2026-06-06T00:00:00+06:00');
+const TARGET_DAYS = 270; // আপনার রিকোয়েস্ট অনুযায়ী ফিক্সড ২৭০ দিন
+const PG_TOTAL_MS = TARGET_DAYS * 24 * 60 * 60 * 1000; // ২৭০ দিনের টোটাল মিলিসেকেন্ড
+const BN_MONTHS = ['১ম','২য়','৩য়','৪র্থ','৫ম','৬ষ্ঠ','৭ম','৮ম','৯ম'];
+
+function buildMilestones(pct) {
+  const el = document.getElementById('mstones'); el.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const d = document.createElement('div');
+    d.className = 'm-dot' + (((i+1)/9)*100 <= pct ? ' done' : '');
+    el.appendChild(d);
+  }
+}
+
+function buildBubbles(elapsedMs) {
+  const el = document.getElementById('mBubbles'); el.innerHTML = '';
+  const mMs = PG_TOTAL_MS / 9; // প্রতি মাসের স্লট
+  for (let i = 0; i < 9; i++) {
+    const b = document.createElement('div'); b.className = 'm-bubble';
+    const st = i * mMs, nd = (i+1) * mMs;
+    if (elapsedMs >= nd) b.classList.add('done');
+    else if (elapsedMs >= st) b.classList.add('now');
+    b.innerHTML = BN_MONTHS[i] + `<div class="tip">${i+1} মাস</div>`;
+    el.appendChild(b);
+  }
+}
+
+function updateAllTimers() {
+  const now = new Date();
+  const diffToStart = PG_START - now;
+  const el = document.getElementById('t1status');
+  const tx = document.getElementById('t1txt');
+
+  if (diffToStart > 0) {
+    el.className = 'timer-status status-cntdwn';
+    tx.textContent = 'সময়টা ধরে রাখা হয়েছে (এখনো শুরু হয়নি)';
+    document.getElementById('d').textContent = "00";
+    document.getElementById('h').textContent = "00";
+    document.getElementById('m').textContent = "00";
+    document.getElementById('s').textContent = "00";
+    document.getElementById('barFill').style.width = '0%';
+    document.getElementById('pctNum').textContent  = '0%';
+    document.getElementById('pgD').textContent     = TARGET_DAYS;
+    document.getElementById('dayBoxLabel').textContent = 'দিন বাকি';
+    document.getElementById('dayBoxSub').textContent   = `মোট লক্ষ্য: ${TARGET_DAYS} দিন`;
+    buildMilestones(0);
+    buildBubbles(0);
+  } else {
+    let elapsedMs = now - PG_START;
+    const isFinished = elapsedMs >= PG_TOTAL_MS;
+    
+    if (isFinished) {
+      elapsedMs = PG_TOTAL_MS;
+      el.className = 'timer-status status-elapsed';
+      tx.textContent = '৯ মাসের সফর সম্পূর্ণ হয়েছে! 🎉';
+    } else {
+      el.className = 'timer-status status-elapsed';
+      tx.innerHTML = '<div class="pulse-dot"></div> ৬ই জুন ২০২৬ থেকে অতিবাহিত সময় (লাইভ)';
+    }
+
+    const absMs = Math.abs(elapsedMs);
+    const daysElapsed = Math.floor(absMs / 86400000);
+    const hrs    = Math.floor((absMs % 86400000) / 3600000);
+    const mins   = Math.floor((absMs % 3600000) / 60000);
+    const secs   = Math.floor((absMs % 60000) / 1000);
+
+    // টাইম কাউন্টার ডিসপ্লে
+    document.getElementById('d').textContent = p2(daysElapsed);
+    document.getElementById('h').textContent = p2(hrs);
+    document.getElementById('m').textContent = p2(mins);
+    document.getElementById('s').textContent = p2(secs);
+
+    // প্রগ্রেস বার কন্ট্রোল (২৭০ দিনের সাপেক্ষে)
+    const pct = (elapsedMs / PG_TOTAL_MS) * 100;
+    document.getElementById('barFill').style.width = Math.min(100, pct).toFixed(1) + '%';
+    document.getElementById('pctNum').textContent  = Math.round(pct) + '%';
+
+    // ডানপাশের সিঙ্গেল ডে কার্ড ফিক্সড ২৭০ দিনের সাপেক্ষে রেডি করা
+    if (isFinished) {
+      document.getElementById('pgD').textContent = TARGET_DAYS;
+      document.getElementById('dayBoxLabel').textContent = 'দিন সম্পন্ন';
+      document.getElementById('dayBoxSub').textContent = 'যাত্রা সফল!';
+    } else {
+      const daysRemaining = TARGET_DAYS - daysElapsed;
+      document.getElementById('pgD').textContent = daysRemaining;
+      document.getElementById('dayBoxLabel').textContent = 'দিন বাকি';
+      document.getElementById('dayBoxSub').textContent = `মোট লক্ষ্য: ${TARGET_DAYS} দিন`;
+    }
+
+    buildMilestones(pct);
+    buildBubbles(elapsedMs);
+  }
+}
+
+setInterval(updateAllTimers, 1000);
+updateAllTimers();
+</script>
+</body>
+</html>
